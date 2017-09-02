@@ -10,7 +10,9 @@ module ParallelTests
         def run_tests(test_files, process_number, num_processes, options)
           exe = executable # expensive, so we cache
           cmd = [exe, options[:test_options], color, spec_opts, *test_files].compact.join(" ")
-          execute_command(cmd, process_number, num_processes, options)
+          Bundler.with_clean_env do
+            execute_command(cmd, process_number, num_processes, options)
+          end
         end
 
         def determine_executable
